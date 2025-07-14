@@ -9,6 +9,7 @@ RUN mvn verify
 # Run stage
 FROM --platform=${TARGETPLATFORM} amazoncorretto:20
 WORKDIR /usr/local/app
-COPY --from=build /usr/local/app/target .
-ENTRYPOINT ["java", "-Xmx8m", "-Xms8m", "-jar", "/usr/local/app/words.jar"]
+COPY --from=build /usr/local/app/target/*.jar app.jar 
+ADD "https://dtdg.co/latest-java-tracer" dd-java-agent.jar
+ENTRYPOINT ["java","-javaagent:dd-java-agent.jar", "-Xmx8m", "-Xms8m", "-jar", "app.jar"]
 EXPOSE 8080
