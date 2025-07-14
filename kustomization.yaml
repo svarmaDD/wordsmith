@@ -1,3 +1,11 @@
+
+images:
+- name: web
+  newName: 730006451716.dkr.ecr.ap-south-1.amazonaws.com/web
+  newTag: latest
+- name: api 
+  newName: 730006451716.dkr.ecr.ap-south-1.amazonaws.com/api
+  newTag: latest
 resources:
   - k8s-manifests/api.yaml
   - k8s-manifests/db.yaml

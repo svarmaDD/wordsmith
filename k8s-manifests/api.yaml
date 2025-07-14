@@ -20,7 +20,7 @@ metadata:
   labels:
     app: api
 spec:
-  replicas: 5
+  replicas: 1
   selector:
     matchLabels:
       app: api
@@ -30,8 +30,30 @@ spec:
         app: api
     spec:
       containers:
-        - name: api
-          image: dockersamples/wordsmith-api
+       # - image: dockersamples/wordsmith-api
+        - image: 730006451716.dkr.ecr.ap-south-1.amazonaws.com/api:latest
+          name: api 
           ports:
             - containerPort: 8080
               name: api
+          env: 
+          - name: DD_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: DD_TRACE_SAMPLE_RATE
+            value: "1.0"  
+          - name: DD_SERVICE
+            value: "api-service"
+          - name: DD_ENV
+            value: "development"
+          - name: DD_VERSION
+            value: "1.0"
+          - name: DB_HOST
+            value: "db"
+          - name: DB_USERNAME
+            value: "postgres"
+          - name: DB_PASSWORD
+            value: "postgres"      
